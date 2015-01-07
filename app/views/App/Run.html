@@ -1,0 +1,45 @@
+{{set . "title" "Home"}}
+{{template "header.html" .}}
+
+<header class="hero-unit" style="background-color:#A9F16C">
+  <div class="container">
+    <div class="row">
+      <div class="hero-text">
+        <h1>Phage Analysis</h1>
+        <h2>Input</h2>
+
+        <form id="input" action="running" method="post" enctype="multipart/form-data">
+          <label>File (Fasta or FastQ)</label>
+          <input type="file" name="seq-file"><br><br>
+          <h4>Phage library</h4>
+          <label>7 residues NNK</label>
+          <input type="radio" name="pep-lib" id="pep7nnk" value="pep7nnk"><br>
+          <label>12 residues NNK</label>
+          <input type="radio" name="pep-lib" id="pep12nnk" value="pep12nnk"><br><br>
+          <h4>Primers</h4>
+          <label>Forward primer</label><br>
+          <textarea name="forw-primer" form="input" cols="80" rows="4">raw text...</textarea><br>
+          <label>Reverse primer</label><br>
+          <textarea name="rev-primer" form="input" cols="80" rows="4">raw test...</textarea><br><br>
+          <h4>Proteome</h4>
+          <select form="input">
+            <option value="rick-rick-ref">Rickettsia rickttsii [RefSec]</option>
+            <option value="rick-rick-pat">Rickettsia rickttsii [PATRIC]</option>
+          </select><br>
+          <br>
+          <input type="submit" value="Submit">
+        </form>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+  <div class="row">
+    <div class="span6">
+      {{template "flash.html" .}}
+    </div>
+  </div>
+</div>
+
+{{template "footer.html" .}}
