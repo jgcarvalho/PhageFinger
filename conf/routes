@@ -7,7 +7,9 @@ module:testrunner
 GET     /                                       App.Index
 GET     /run                                    App.Run
 POST    /running                                App.Running
-GET    /results                                 App.Results
+GET     /results/:user/:id                      App.Results
+GET     /results/:user/:id/peptidesfasta        App.PeptidesFasta
+GET     /results/:user/:id/proteinsrank         App.ProteinsRank
 
 
 # Ignore favicon requests

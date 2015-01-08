@@ -10,22 +10,25 @@
 
         <form id="input" action="running" method="post" enctype="multipart/form-data">
           <label>File (Fasta or FastQ)</label>
-          <input type="file" name="seq-file"><br><br>
+          <input type="file" name="seqFile"><br><br>
           <h4>Phage library</h4>
           <label>7 residues NNK</label>
-          <input type="radio" name="pep-lib" id="pep7nnk" value="pep7nnk"><br>
+          <input type="radio" name="pepLib" id="pep7nnk" value="pep7nnk"><br>
           <label>12 residues NNK</label>
-          <input type="radio" name="pep-lib" id="pep12nnk" value="pep12nnk"><br><br>
+          <input type="radio" name="pepLib" id="pep12nnk" value="pep12nnk" checked="checked"><br><br>
           <h4>Primers</h4>
           <label>Forward primer</label><br>
-          <textarea name="forw-primer" form="input" cols="80" rows="4">raw text...</textarea><br>
+          <textarea name="forwPrimer" form="input" cols="80" rows="4">CCTCTCTATGGGCAGTCGGTGATCCTTTCTATTCTCACTCT</textarea><br>
           <label>Reverse primer</label><br>
-          <textarea name="rev-primer" form="input" cols="80" rows="4">raw test...</textarea><br><br>
+          <textarea name="revPrimer" form="input" cols="80" rows="4">CCGAACCTCCACC</textarea><br><br>
           <h4>Proteome</h4>
-          <select form="input">
+          <select form="input" name="proteome">
+            <option value="prot_sample">PROT SAMPLE</option>
             <option value="rick-rick-ref">Rickettsia rickttsii [RefSec]</option>
             <option value="rick-rick-pat">Rickettsia rickttsii [PATRIC]</option>
           </select><br>
+          <h4>Number of random libraries</h4>
+          <input type="number" name="randLib" min="1" max="10" value="1">
           <br>
           <input type="submit" value="Submit">
         </form>

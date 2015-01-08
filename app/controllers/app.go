@@ -2,8 +2,11 @@ package controllers
 
 import (
 	"fmt"
-	"time"
+	"html/template"
+	"os"
+	"strconv"
 
+	"github.com/jgcarvalho/PhageFinger/app/models"
 	"github.com/revel/revel"
 )
 
@@ -19,24 +22,13 @@ func (c App) Run() revel.Result {
 	return c.Render()
 }
 
-func (c App) Results(id string) revel.Result {
-	if ListJobs[id].status == false {
-		done := "processing"
-		fmt.Println(ListJobs[id].status)
-		return c.Render(done)
-	} else {
-		done := "Done"
-		fmt.Println(ListJobs[id].status)
-		return c.Render(done)
-	}
-
-}
-
-func (c App) Running() revel.Result {
+func (c App) Running(seqFile *os.File, pepLib, forwPrimer, revPrimer, proteome, randLib string) revel.Result {
 	// user := "zeh"
 	// job := "rick"
 	// id := "AAAAA"
-	j := &MyJob{id: "AAAAA"}
+	fmt.Println(pepLib, forwPrimer, revPrimer, proteome, randLib)
+	rl, _ := strconv.Atoi(randLib)
+	j := &models.Job{ID: "AAAAA", User: "zeh", SeqFile: seqFile, PepLib: pepLib, ForwPrimer: forwPrimer, RevPrimer: revPrimer, Proteome: proteome, RandLib: rl}
 	ListJobs["AAAAA"] = j
 	go j.Run()
 	// for i := 0; i < 5; i++ {
@@ -44,24 +36,43 @@ func (c App) Running() revel.Result {
 	// 	t := time.Now().String()
 	// 	c.Render(t)
 	// }
-	return c.Redirect("/results?id=%s", j.id)
+	return c.Redirect("/results/%s/%s/", j.User, j.ID)
 }
 
-var ListJobs map[string]*MyJob = make(map[string]*MyJob, 100)
+var htmlResume string = `<h2>Resume</h2>
+													<p>User: %s</p>
+													<p>File name: %s</p>
+													<p>Pep Lib: %s</p>
+													<p>Forward Primer: %s</p>
+													<p>Reverse Primer: %s</p>
+													<p>Proteome: %s</p>
+													<p>Random Libs: %d</p>
+													<p><a href="./peptidesfasta">Peptides Fasta</a></p>
+													<p><a href="./proteinsrank">Proteins </a></p>`
 
-type MyJob struct {
-	id string
-	// user string
-	// job string
-	status bool
+func (c App) Results(id string) revel.Result {
+	if ListJobs[id].Status == false {
+		done := "processing"
+		resume := ""
+		fmt.Println(ListJobs[id].Status)
+		return c.Render(done, resume)
+	} else {
+		done := "Done"
+		resume := template.HTML(fmt.Sprintf(htmlResume, ListJobs[id].User, ListJobs[id].SeqFile, ListJobs[id].PepLib, ListJobs[id].ForwPrimer, ListJobs[id].RevPrimer, ListJobs[id].Proteome, ListJobs[id].RandLib))
+		fmt.Println(ListJobs[id].Status)
+		return c.Render(done, resume)
+	}
+
 }
 
-func (j *MyJob) Run() {
-
-	fmt.Println("func running")
-	time.Sleep(15 * time.Second)
-	fmt.Println("func running yet")
-	j.status = true
-	fmt.Println("ok")
-
+func (c App) PeptidesFasta(user, id string) revel.Result {
+	peptides := ListJobs[id].Peptides
+	return c.Render(peptides)
 }
+
+func (c App) ProteinsRank(user, id string) revel.Result {
+	proteins := ListJobs[id].Proteins
+	return c.Render(proteins)
+}
+
+var ListJobs map[string]*models.Job = make(map[string]*models.Job, 100)
