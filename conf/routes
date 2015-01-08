@@ -6,9 +6,9 @@ module:testrunner
 
 GET     /                                       App.Index
 GET     /run                                    App.Run
-POST    /results                                App.Results
-GET     /running                                App.Running
 POST    /running                                App.Running
+GET    /results                                 App.Results
+
 
 # Ignore favicon requests
 GET     /favicon.ico                            404
