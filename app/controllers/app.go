@@ -39,8 +39,7 @@ func (c App) Running(seqFile *os.File, pepLib, forwPrimer, revPrimer, proteome, 
 	return c.Redirect("/results/%s/%s/", j.User, j.ID)
 }
 
-var htmlResume string = `<h2>Resume</h2>
-													<p>User: %s</p>
+var htmlResume string = `	<p>User: %s</p>
 													<p>File name: %s</p>
 													<p>Pep Lib: %s</p>
 													<p>Forward Primer: %s</p>
@@ -50,17 +49,25 @@ var htmlResume string = `<h2>Resume</h2>
 													<p><a href="./peptidesfasta">Peptides Fasta</a></p>
 													<p><a href="./proteinsrank">Proteins </a></p>`
 
+var htmlProgress string = `<div class="bs-component">
+                            <div class="progress">
+                              <div class="progress-bar" style="width: %d%%;"></div>
+                            </div>
+                        	 </div>`
+var htmlRefresh string = `<meta http-equiv="refresh" content="5">`
+
 func (c App) Results(id string) revel.Result {
 	if ListJobs[id].Status == false {
-		done := "processing"
-		resume := ""
+		status := "Processing proteome"
+		resume := template.HTML(fmt.Sprintf(htmlProgress, ListJobs[id].ProtProgress))
+		refresh := template.HTML(htmlRefresh)
 		fmt.Println(ListJobs[id].Status)
-		return c.Render(done, resume)
+		return c.Render(status, resume, refresh)
 	} else {
-		done := "Done"
+		status := "Results"
 		resume := template.HTML(fmt.Sprintf(htmlResume, ListJobs[id].User, ListJobs[id].SeqFile, ListJobs[id].PepLib, ListJobs[id].ForwPrimer, ListJobs[id].RevPrimer, ListJobs[id].Proteome, ListJobs[id].RandLib))
 		fmt.Println(ListJobs[id].Status)
-		return c.Render(done, resume)
+		return c.Render(status, resume)
 	}
 
 }

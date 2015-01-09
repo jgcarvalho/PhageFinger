@@ -1,48 +1,73 @@
 {{set . "title" "Home"}}
 {{template "header.html" .}}
 
-<header class="hero-unit" style="background-color:#A9F16C">
+<header class="hero-unit">
   <div class="container">
     <div class="row">
-      <div class="hero-text">
-        <h1>Phage's Finger</h1>
-        <h2>Input</h2>
+      <div class="col-lg-12">
+        <div class="page-header">
+          <h1>Phage's Finger</h1>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            Input
+          </div>
+          <div class="panel-body">
+            <form class="form-horizontal" id="input" action="running" method="post" enctype="multipart/form-data">
+              <div class="form-group">
+                <label class="col-lg-2 control-label">File (Fasta or FastQ)</label>
+                <div class="col-lg-10">
+                  <input id="inputFile" type="file" name="seqFile">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-lg-2 control-label">Phage library</label>
+                <div class="col-lg-10">
+                  <div class="radio radio-primary">
+                    <label><input name="pepLib" value="pep7nnk" type="radio">7 residues NNK</label>
+                  </div>
+                  <div class="radio radio-primary">
+                    <label><input name="pepLib" value="pep12nnk" type="radio" checked="checked">12 residues NNK</label>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-lg-2 control-label">Primers</label>
+                <div class="col-lg-10">
+                  <textarea class="form-control floating-label" data-hint="Put here the forward primer dna sequence in raw text" placeholder="Forward Primer" name="forwPrimer" form="input" rows="2">CCTCTCTATGGGCAGTCGGTGATCCTTTCTATTCTCACTCT</textarea><br>
+                  <textarea class="form-control floating-label" data-hint="Put here the reverse primer dna sequence in raw text" placeholder="Reverse Primer" name="revPrimer" form="input" rows="2">CCGAACCTCCACC</textarea><br><br>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-lg-2 control-label">Proteome</label>
+                <div class="col-lg-10">
+                  <select form="input" class="form-control" name="proteome">
+                    <option value="prot_sample">PROT SAMPLE</option>
+                    <option value="rick-rick-ref">Rickettsia rickttsii [RefSec]</option>
+                    <option value="rick-rick-pat">Rickettsia rickttsii [PATRIC]</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-lg-2 control-label">Number of random libraries</label>
+                <div class="col-lg-10">
+                  <input type="number" name="randLib" min="1" max="10" value="1">
+                </div>
+              </div>
+              <button class="btn btn-primary" type="submit">SUBMIT</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
 
-        <form id="input" action="running" method="post" enctype="multipart/form-data">
-          <label>File (Fasta or FastQ)</label>
-          <input type="file" name="seqFile"><br><br>
-          <h4>Phage library</h4>
-          <label>7 residues NNK</label>
-          <input type="radio" name="pepLib" id="pep7nnk" value="pep7nnk"><br>
-          <label>12 residues NNK</label>
-          <input type="radio" name="pepLib" id="pep12nnk" value="pep12nnk" checked="checked"><br><br>
-          <h4>Primers</h4>
-          <label>Forward primer</label><br>
-          <textarea name="forwPrimer" form="input" cols="80" rows="4">CCTCTCTATGGGCAGTCGGTGATCCTTTCTATTCTCACTCT</textarea><br>
-          <label>Reverse primer</label><br>
-          <textarea name="revPrimer" form="input" cols="80" rows="4">CCGAACCTCCACC</textarea><br><br>
-          <h4>Proteome</h4>
-          <select form="input" name="proteome">
-            <option value="prot_sample">PROT SAMPLE</option>
-            <option value="rick-rick-ref">Rickettsia rickttsii [RefSec]</option>
-            <option value="rick-rick-pat">Rickettsia rickttsii [PATRIC]</option>
-          </select><br>
-          <h4>Number of random libraries</h4>
-          <input type="number" name="randLib" min="1" max="10" value="1">
-          <br>
-          <input type="submit" value="Submit">
-        </form>
+  <div class="container">
+    <div class="row">
+      <div class="span6">
+        {{template "flash.html" .}}
       </div>
     </div>
   </div>
-</header>
 
-<div class="container">
-  <div class="row">
-    <div class="span6">
-      {{template "flash.html" .}}
-    </div>
-  </div>
-</div>
-
-{{template "footer.html" .}}
+  {{template "footer.html" .}}

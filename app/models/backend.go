@@ -34,17 +34,20 @@ func (j *MyJob) Run() {
 }
 
 type Job struct {
-	ID         string
-	User       string
-	Status     bool
-	SeqFile    *os.File
-	PepLib     string
-	ForwPrimer string
-	RevPrimer  string
-	Proteome   string
-	RandLib    int
-	Peptides   []pep.Peptide
-	Proteins   []prot.Protein
+	ID   string
+	User string
+	// PepStatus    bool
+	// RandStatus   bool
+	ProtProgress int
+	Status       bool
+	SeqFile      *os.File
+	PepLib       string
+	ForwPrimer   string
+	RevPrimer    string
+	Proteome     string
+	RandLib      int
+	Peptides     []pep.Peptide
+	Proteins     []prot.Protein
 }
 
 func (j *Job) Run() {
@@ -70,6 +73,7 @@ func (j *Job) Run() {
 	j.Proteins, err = pda.ReadMProteins("/home/jgcarvalho/gocode/src/github.com/jgcarvalho/PhageFinger/public/proteomes/prot_sample.faa")
 	for i := 0; i < len(j.Proteins); i++ {
 		j.Proteins[i].Analysis(j.Peptides, randomPeps)
+		j.ProtProgress = (i + 2) * 100 / len(j.Proteins)
 	}
 	sort.Sort(sort.Reverse(prot.Proteins(j.Proteins)))
 	fmt.Println("DONE")
