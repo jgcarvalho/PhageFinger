@@ -1,0 +1,74 @@
+{{set . "title" "Home"}}
+{{template "header.html" .}}
+
+<header class="hero-unit">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="page-header">
+                    <h1>Phage's Finger</h1>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Translated peptides
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-striped table-hover ">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Name</th>
+                                    <th>Sequence</th>
+                                    <th>Frequency</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{range .peptides}}
+                                <tr>
+                                    <td>1</td>
+                                    <td>{{.Name}}</td>
+                                    <td>{{.Seq}}</td>
+                                    <td>{{.Freq}}</td>
+                                </tr>
+                                {{end}}
+                            </tbody>
+                        </table>
+                        {{$page := .page}}
+                        <ul class="pagination pagination-sm">
+                            {{if eq $page 1}}
+                                <li class="disabled"><a href="">«</a></li>
+                            {{else}}
+                                <li><a href={{.previous}}>«</a></li>
+                            {{end}}
+
+                            {{range .pages}}
+                                {{if eq $page .}}
+                                    <li class="active"><a href={{.}}>{{.}}</a></li>
+                                {{else}}
+                                    <li><a href={{.}}>{{.}}</a></li>
+                                {{end}}
+                            {{end}}
+                            {{$lenp := len .pages}}
+                            {{if eq $page $lenp}}
+                                <li class="disabled"><a href="">»</a></li>
+                            {{else}}
+                                <li><a href={{.next}}>»</a></li>
+                            {{end}}
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="container">
+    <div class="row">
+        <div class="span6">
+            {{template "flash.html" .}}
+        </div>
+    </div>
+</div>
+
+{{template "footer.html" .}}

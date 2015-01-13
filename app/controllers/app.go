@@ -6,6 +6,8 @@ import (
 	"os"
 	"strconv"
 
+	"github.com/jgcarvalho/PhageAnalysis/pep"
+	"github.com/jgcarvalho/PhageAnalysis/prot"
 	"github.com/jgcarvalho/PhageFinger/app/models"
 	"github.com/revel/revel"
 )
@@ -46,8 +48,10 @@ var htmlResume string = `	<p>User: %s</p>
 													<p>Reverse Primer: %s</p>
 													<p>Proteome: %s</p>
 													<p>Random Libs: %d</p>
+													<p><a href="./peptides/1">Peptides</a></p>
+													<p><a href="./proteins/1">Proteins</a></p>
 													<p><a href="./peptidesfasta">Peptides Fasta</a></p>
-													<p><a href="./proteinsrank">Proteins </a></p>`
+													<p><a href="./proteinsrank">Proteins txt</a></p>`
 
 var htmlProgress string = `<div class="bs-component">
                             <div class="progress">
@@ -70,6 +74,42 @@ func (c App) Results(id string) revel.Result {
 		return c.Render(status, resume)
 	}
 
+}
+
+func (c App) Peptides(user, id string, page int) revel.Result {
+	nperpage := 25
+	lenPages := (len(ListJobs[id].Peptides) - 1) / nperpage
+	pages := make([]int, lenPages+1)
+	for i := 0; i < lenPages+1; i++ {
+		pages[i] = i + 1
+	}
+	var peptides []pep.Peptide
+	if (page)*nperpage > len(ListJobs[id].Peptides) {
+		peptides = ListJobs[id].Peptides[(page-1)*nperpage:]
+	} else {
+		peptides = ListJobs[id].Peptides[(page-1)*nperpage : (page)*nperpage]
+	}
+
+	next, previous := page+1, page-1
+	return c.Render(peptides, page, next, previous, pages)
+}
+
+func (c App) Proteins(user, id string, page int) revel.Result {
+	nperpage := 50
+	lenPages := (len(ListJobs[id].Proteins) - 1) / nperpage
+	pages := make([]int, lenPages+1)
+	for i := 0; i < lenPages+1; i++ {
+		pages[i] = i + 1
+	}
+	var proteins []prot.Protein
+	if (page)*nperpage > len(ListJobs[id].Proteins) {
+		proteins = ListJobs[id].Proteins[(page-1)*nperpage:]
+	} else {
+		proteins = ListJobs[id].Proteins[(page-1)*nperpage : (page)*nperpage]
+	}
+
+	next, previous := page+1, page-1
+	return c.Render(proteins, page, next, previous, pages)
 }
 
 func (c App) PeptidesFasta(user, id string) revel.Result {
