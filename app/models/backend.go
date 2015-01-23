@@ -70,7 +70,9 @@ func (j *Job) Run() {
 	j.Peptides, _ = pda.GetPeptides(dna, template)
 	// fmt.Println(j.Peptides)
 	randomPeps := pep.RandomLibrary(j.Peptides)
-	j.Proteins, err = pda.ReadMProteins("/home/zeh/gocode/src/github.com/jgcarvalho/PhageFinger/public/proteomes/prot_sample.faa")
+	// proteomeDir deve apontar para a pasta onde estão os proteomas
+	proteomeDir := "/home/zeh/gocode/src/github.com/jgcarvalho/PhageFinger/public/proteomes/"
+	j.Proteins, err = pda.ReadMProteins(proteomeDir + j.Proteome)
 	for i := 0; i < len(j.Proteins); i++ {
 		j.Proteins[i].Analysis(j.Peptides, randomPeps)
 		j.ProtProgress = (i + 2) * 100 / len(j.Proteins)

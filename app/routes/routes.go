@@ -76,6 +76,19 @@ func (_ tApp) Proteins(
 	return revel.MainRouter.Reverse("App.Proteins", args).Url
 }
 
+func (_ tApp) ProtDetails(
+		user string,
+		id string,
+		protid int,
+		) string {
+	args := make(map[string]string)
+	
+	revel.Unbind(args, "user", user)
+	revel.Unbind(args, "id", id)
+	revel.Unbind(args, "protid", protid)
+	return revel.MainRouter.Reverse("App.ProtDetails", args).Url
+}
+
 func (_ tApp) PeptidesFasta(
 		user string,
 		id string,

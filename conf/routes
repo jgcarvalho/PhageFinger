@@ -10,6 +10,7 @@ POST    /running                                App.Running
 GET     /results/:user/:id                      App.Results
 GET     /results/:user/:id/peptides/:page       App.Peptides
 GET     /results/:user/:id/proteins/:page       App.Proteins
+GET     /results/:user/:id/proteins/details/:protid     App.ProtDetails
 GET     /results/:user/:id/peptidesfasta        App.PeptidesFasta
 GET     /results/:user/:id/proteinsrank         App.ProteinsRank
 

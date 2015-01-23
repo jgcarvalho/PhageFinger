@@ -68,12 +68,12 @@ func main() {
 					&revel.MethodArg{Name: "id", Type: reflect.TypeOf((*string)(nil)) },
 				},
 				RenderArgNames: map[int][]string{ 
-					69: []string{ 
+					71: []string{ 
 						"status",
 						"resume",
 						"refresh",
 					},
-					74: []string{ 
+					76: []string{ 
 						"status",
 						"resume",
 					},
@@ -87,7 +87,7 @@ func main() {
 					&revel.MethodArg{Name: "page", Type: reflect.TypeOf((*int)(nil)) },
 				},
 				RenderArgNames: map[int][]string{ 
-					94: []string{ 
+					96: []string{ 
 						"peptides",
 						"page",
 						"next",
@@ -104,12 +104,25 @@ func main() {
 					&revel.MethodArg{Name: "page", Type: reflect.TypeOf((*int)(nil)) },
 				},
 				RenderArgNames: map[int][]string{ 
-					112: []string{ 
+					114: []string{ 
 						"proteins",
 						"page",
 						"next",
 						"previous",
 						"pages",
+					},
+				},
+			},
+			&revel.MethodType{
+				Name: "ProtDetails",
+				Args: []*revel.MethodArg{ 
+					&revel.MethodArg{Name: "user", Type: reflect.TypeOf((*string)(nil)) },
+					&revel.MethodArg{Name: "id", Type: reflect.TypeOf((*string)(nil)) },
+					&revel.MethodArg{Name: "protid", Type: reflect.TypeOf((*int)(nil)) },
+				},
+				RenderArgNames: map[int][]string{ 
+					119: []string{ 
+						"protein",
 					},
 				},
 			},
@@ -120,7 +133,7 @@ func main() {
 					&revel.MethodArg{Name: "id", Type: reflect.TypeOf((*string)(nil)) },
 				},
 				RenderArgNames: map[int][]string{ 
-					117: []string{ 
+					124: []string{ 
 						"peptides",
 					},
 				},
@@ -132,7 +145,7 @@ func main() {
 					&revel.MethodArg{Name: "id", Type: reflect.TypeOf((*string)(nil)) },
 				},
 				RenderArgNames: map[int][]string{ 
-					122: []string{ 
+					129: []string{ 
 						"proteins",
 					},
 				},

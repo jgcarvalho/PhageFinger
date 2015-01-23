@@ -30,6 +30,8 @@ func (c App) Running(seqFile *os.File, pepLib, forwPrimer, revPrimer, proteome, 
 	// id := "AAAAA"
 	fmt.Println(pepLib, forwPrimer, revPrimer, proteome, randLib)
 	rl, _ := strconv.Atoi(randLib)
+	proteome = models.Proteome(proteome)
+	fmt.Println(proteome)
 	j := &models.Job{ID: "AAAAA", User: "zeh", SeqFile: seqFile, PepLib: pepLib, ForwPrimer: forwPrimer, RevPrimer: revPrimer, Proteome: proteome, RandLib: rl}
 	ListJobs["AAAAA"] = j
 	go j.Run()
@@ -110,6 +112,11 @@ func (c App) Proteins(user, id string, page int) revel.Result {
 
 	next, previous := page+1, page-1
 	return c.Render(proteins, page, next, previous, pages)
+}
+
+func (c App) ProtDetails(user, id string, protid int) revel.Result {
+	protein := ListJobs[id].Proteins[protid]
+	return c.Render(protein)
 }
 
 func (c App) PeptidesFasta(user, id string) revel.Result {
