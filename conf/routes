@@ -4,22 +4,22 @@
 
 module:testrunner
 
-GET     /                                       App.Index
-GET     /run                                    App.Run
-POST    /running                                App.Running
-GET     /results/:user/:id                      App.Results
-GET     /results/:user/:id/peptides/:page       App.Peptides
-GET     /results/:user/:id/proteins/:page       App.Proteins
-GET     /results/:user/:id/proteins/details/:protid     App.ProtDetails
-GET     /results/:user/:id/peptidesfasta        App.PeptidesFasta
-GET     /results/:user/:id/proteinsrank         App.ProteinsRank
+GET     /pf/                                       App.Index
+GET     /pf/run                                    App.Run
+POST    /pf/running                                App.Running
+GET     /pf/results/:user/:id                      App.Results
+GET     /pf/results/:user/:id/peptides/:page       App.Peptides
+GET     /pf/results/:user/:id/proteins/:page       App.Proteins
+GET     /pf/results/:user/:id/proteins/details/:protid     App.ProtDetails
+GET     /pf/results/:user/:id/peptidesfasta        App.PeptidesFasta
+GET     /pf/results/:user/:id/proteinsrank         App.ProteinsRank
 
 
 # Ignore favicon requests
-GET     /favicon.ico                            404
+GET     /pf/favicon.ico                            404
 
 # Map static resources from the /app/public folder to the /public path
-GET     /public/*filepath                       Static.Serve("public")
+GET     /pf/public/*filepath                       Static.Serve("public")
 
 # Catch all
-*       /:controller/:action                    :controller.:action
+*       /pf/:controller/:action                    :controller.:action

@@ -40,7 +40,7 @@ func (c App) Running(seqFile *os.File, pepLib, forwPrimer, revPrimer, proteome, 
 	// 	t := time.Now().String()
 	// 	c.Render(t)
 	// }
-	return c.Redirect("/results/%s/%s/", j.User, j.ID)
+	return c.Redirect("/pf/results/%s/%s/", j.User, j.ID)
 }
 
 var htmlResume string = `	<p>User: %s</p>
