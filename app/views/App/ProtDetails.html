@@ -10,6 +10,9 @@
         </div>
         <div class="panel panel-default">
           <div class="panel-body">
+            <!--<canvas id="myChart" width="800" height="200"></canvas>-->
+
+            <div id="chartdiv" style="width: 95%; height: 400px"></div>
             {{.protein}}
           </div>
         </div>
@@ -25,5 +28,126 @@
     </div>
   </div>
 </div>
+<!--
+<script src="/pf/public/js/Chart.min.js"></script>
+<script>
+var ctx = document.getElementById("myChart").getContext("2d");
+var data = {
+    labels: ["January", "February", "March", "April", "May", "June", "July"],
+    datasets: [
+        {
+            label: "My First dataset",
+            fillColor: "rgba(220,220,220,0.2)",
+            strokeColor: "rgba(220,220,220,1)",
+            pointColor: "rgba(220,220,220,1)",
+            pointStrokeColor: "#fff",
+            pointHighlightFill: "#fff",
+            pointHighlightStroke: "rgba(220,220,220,1)",
+            data: [65, 59, 80, 81, 56, 55, 40]
+        },
+        {
+            label: "My Second dataset",
+            fillColor: "rgba(151,187,205,0.2)",
+            strokeColor: "rgba(151,187,205,1)",
+            pointColor: "rgba(151,187,205,1)",
+            pointStrokeColor: "#fff",
+            pointHighlightFill: "#fff",
+            pointHighlightStroke: "rgba(151,187,205,1)",
+            data: [28, 48, 40, 19, 86, 27, 90]
+        }
+    ]
+};
+var options={};
+var myLineChart = new Chart(ctx).Line(data,options);
+</script>
+-->
+<script type="text/javascript" src="http://www.amcharts.com/lib/3/amcharts.js"></script>
+<script type="text/javascript" src="http://www.amcharts.com/lib/3/serial.js"></script>
+<script type="text/javascript" src="http://www.amcharts.com/lib/3/themes/none.js"></script>
+<script>
+// this method is called when chart is first inited as we listen for "dataUpdated" event
+function zoomChart() {
+    // different zoom methods can be used - zoomToIndexes, zoomToDates, zoomToCategoryValues
+    chart.zoomToIndexes(0, chartData.length - 1);
+}
+
+
+// generate some random data, quite different range
+function generateChartData() {
+    var chartData = [];
+    var firstDate = new Date();
+    firstDate.setDate(firstDate.getDate() - 5);
+
+    for (var i = 0; i < 500; i++) {
+        // we create date objects here. In your data, you can have date strings
+        // and then set format of your dates using chart.dataDateFormat property,
+        // however when possible, use date objects, as this will speed up chart rendering.
+        var newDate = new Date(firstDate);
+        newDate.setDate(newDate.getDate() + i);
+
+        var visits = Math.round(Math.random() * (40 + i / 5)) + 20 + i;
+
+        chartData.push({
+            date: newDate,
+            visits: visits
+        });
+    }
+    return chartData;
+}
+</script>
+<script>
+var chartData = generateChartData();
+var chart = AmCharts.makeChart("chartdiv", {
+    "type": "serial",
+    "theme": "none",
+    "pathToImages": "http://www.amcharts.com/lib/3/images/",
+    "dataProvider": chartData,
+    "valueAxes": [{
+        "axisAlpha": 0.2,
+        "dashLength": 1,
+        "position": "left"
+    }],
+    "mouseWheelZoomEnabled":true,
+    "graphs": [{
+        "id":"g1",
+        "balloonText": "[[category]]<br/><b><span style='font-size:14px;'>value: [[value]]</span></b>",
+        "bullet": "round",
+        "bulletBorderAlpha": 1,
+    "bulletColor":"#FFFFFF",
+        "hideBulletsCount": 50,
+        "title": "red line",
+        "valueField": "visits",
+    "useLineColorForBulletBorder":true
+    }],
+    "chartScrollbar": {
+        "autoGridCount": true,
+        "graph": "g1",
+        "scrollbarHeight": 50
+    },
+    "chartCursor": {
+        "cursorPosition": "mouse"
+    },
+    "categoryField": "date",
+    "categoryAxis": {
+        "parseDates": true,
+        "axisColor": "#DADADA",
+        "dashLength": 1,
+        "minorGridEnabled": true
+    },
+  "exportConfig":{
+    menuRight: '20px',
+      menuBottom: '50px',
+      menuItems: [{
+      icon: 'http://www.amcharts.com/lib/3/images/export.png',
+      format: 'png'
+      }]
+  }
+});
+
+chart.addListener("rendered", zoomChart);
+zoomChart();
+</script>
+
+
 
 {{template "footer.html" .}}

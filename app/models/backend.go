@@ -71,7 +71,7 @@ func (j *Job) Run() {
 	// fmt.Println(j.Peptides)
 	randomPeps := pep.RandomLibrary(j.Peptides)
 	// proteomeDir deve apontar para a pasta onde estão os proteomas
-	proteomeDir := "/home/zeh/gocode/src/github.com/jgcarvalho/PhageFinger/public/proteomes/"
+	proteomeDir := "/home/jgcarvalho/gocode/src/github.com/jgcarvalho/PhageFinger/public/proteomes/"
 	j.Proteins, err = pda.ReadMProteins(proteomeDir + j.Proteome)
 	for i := 0; i < len(j.Proteins); i++ {
 		j.Proteins[i].Analysis(j.Peptides, randomPeps)
